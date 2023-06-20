@@ -96,7 +96,11 @@ void Task_1(std::string name_of_task)
 			case 9: +Operand; break;
 			case 0: -Operand; break;
 			}
-			std::cout << std::endl << Fraction::codes_of_operation[action] << tmp << " = " << Operand;
+			if (action == 8 || action == 6 )
+			std::cout << std::endl << "(" << tmp << ")"<< Fraction::codes_of_operation[action] << " = " << Operand;
+			else
+				std::cout << std::endl << Fraction::codes_of_operation[action] <<"(" << tmp << ") = " << Operand;
+
 
 		}
 
