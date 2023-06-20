@@ -175,6 +175,24 @@ Fraction* Fraction::operator/(const Fraction& another_Fraction)
 	Fraction* result_fraction = new Fraction(new_numerator, new_denominator);
 	return result_fraction;
 }
+Fraction* Fraction::operator++() //prefix
+{
+	_numerator++;
+	return this;
+}
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//Q6 есть ли утечка памяти? Объект tmp_obj остаеся в памяти без указателя? 
+// А если при размещении в стеке (вариант под комментами)?
+// *Конструктор и деструктор по умолчанию
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Fraction* Fraction::operator++(int) //postfix
+{
+	//Fraction& tmp_obj(*this);
+	Fraction* tmp_obj = new Fraction(*this);
+	_numerator++;
+	//return &tmp_obj;
+	return tmp_obj;
+}
 //??? как правильно объявить friend
 //Fraction* Fraction::operator+(const Fraction& Fraction_Operand_1, const Fraction& Fraction_Operand_2)
 Fraction* operator+(const Fraction& Fraction_Operand_1, const Fraction& Fraction_Operand_2)

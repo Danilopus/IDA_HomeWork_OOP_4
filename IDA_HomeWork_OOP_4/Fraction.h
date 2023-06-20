@@ -130,62 +130,26 @@ public:
 
 	//Overload operators - pointer returned -----------------------------------------
 
-	//*
-	friend Fraction* operator+(const Fraction& Fraction_Operand_1, const Fraction& Fraction_Operand_2);
-	//*/
-
 	// Выводы:
-
 	//1 у компилятора в приоритете использование перегрузки через функции-члены
 	//2 только потом пытается  использовать friend, причем это проихсодит даже если friend подходит, а member нет!
 	//3 также компилятор предпочитает использовать варианты перегрузок с параметрами с простой ссылкой вместо const&
 	//4* при попытке выноса определения у friend функции VS пытается вынести его рядом с main (вместо classes.cpp)
-
-	Fraction* operator+(const Fraction& another_Fraction);
-
-	//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	//Q4 ??? при объявлении Fraction* operator+(Fraction& another_Fraction) в .h все было нормально, при переносе в .cpp вдруг давай ругаться ???
-	//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	//Fraction* operator+(Fraction& another_Fraction);
-
-	Fraction* operator+(Fraction& another_Fraction);
-
-
-	/*
-	Fraction* operator+(const Fraction* another_Fraction)
-	{
-		std::cout << "\n" << "Using friend pointer overload parameter" << "\n";
-		int new_numerator = (this->_numerator) * (another_Fraction->_denominator) + (another_Fraction->_numerator) * (this->_denominator);
-		int new_denominator = (this->_denominator) * (another_Fraction->_denominator);
-		//вариант с сокращением дроби в момент создания через вызов Fraction_reduction в конструкторе
-		Fraction* result_fraction = new Fraction(new_numerator, new_denominator);
-		//return result_fraction;
-		return result_fraction;
-	}
-	*/
 
 	Fraction* Add(Fraction& another_Fraction, std::vector<Fraction*>& Available_fractions);
 	Fraction* Subtract(Fraction& another_Fraction, std::vector<Fraction*>& Available_fractions);
 	Fraction* Multiply(Fraction& another_Fraction, std::vector<Fraction*>& Available_fractions);
 	Fraction* Divide(Fraction& another_Fraction, std::vector<Fraction*>& Available_fractions);
 
+	friend Fraction* operator+(const Fraction& Fraction_Operand_1, const Fraction& Fraction_Operand_2);
+	Fraction* operator+(const Fraction& another_Fraction);
+	Fraction* operator+(Fraction& another_Fraction);
 	Fraction* operator-(const Fraction& another_Fraction);
 	Fraction* operator*(const Fraction& another_Fraction);
 	Fraction* operator/(const Fraction& another_Fraction);
 
-	Fraction* operator++() //prefix
-	{
-		_numerator++;
-		return this;
-	}
-	Fraction* operator++(int) //postfix
-	{
-		//Fraction& tmp_obj(*this);
-		Fraction* tmp_obj = new Fraction(*this);		
-		_numerator++;
-		//return &tmp_obj;
-		return tmp_obj;
-	}
+	Fraction* operator++();
+	Fraction* operator++(int);
 	Fraction* operator--() //prefix
 	{
 		_numerator--;
@@ -209,7 +173,6 @@ public:
 		_numerator = -_numerator;
 		return this;
 	}
-
 
 	friend std::ostream& operator << (std::ostream& out, Fraction& just_a_fraction);
 };
