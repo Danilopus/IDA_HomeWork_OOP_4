@@ -25,7 +25,11 @@ Fraction::Fraction(int A1, int A2, std::vector<Fraction*>& Available_fractions) 
 Available_fractions.push_back(this); 
 Fraction_reduction(); 
 }
-Fraction::Fraction(int new_numerator, int new_denominator) : _numerator{ new_numerator }, _denominator{ new_denominator } { Fraction_reduction(); }
+Fraction::Fraction(int new_numerator, int new_denominator) : _numerator{ new_numerator }, _denominator{ new_denominator } 
+{ 	
+	Fraction_reduction(); 
+	static_pointer_Available_fractions->push_back(this);
+}
 void Fraction::Set_denominator(int denominator)
 {
 	assert(denominator && "Division by zero is undefined");
@@ -168,7 +172,8 @@ Fraction* operator+(const Fraction& Fraction_Operand_1, const Fraction& Fraction
 }
 
 //const std::vector<Fraction*> * Fraction::static_pointer_Available_fractions;
-std::vector<Fraction*>* Fraction::static_pointer_Available_fractions;
+//std::vector<Fraction*>* Fraction::static_pointer_Available_fractions;
+std::vector<Fraction*>* Fraction::static_pointer_Available_fractions{nullptr};
 
 
 

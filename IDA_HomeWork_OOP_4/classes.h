@@ -66,7 +66,6 @@ public:
 	void ShowAvailableFractions(std::vector<Fraction*> Available_fractions);
 	static void ShowAvailableFractions()
 	{
-		//static_pointer_Available_fraction
 		std::cout << "\nAvailable fractions:";
 		for (int i = 0; i < (*static_pointer_Available_fractions).size(); i++)
 		{
@@ -81,26 +80,31 @@ public:
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::	
 
 	// Inputs handle -------------------------------------------------------		
-	static void UserChoiceHandle()
+	static int UserChoiceHandle()
+	// 	static void UserChoiceHandle(int keycode)
+
 	{
 		std::cout << "choose a method: ";
-		int action = Get_Int_Positive(0,9, "Please, focus your attention");
+		int action = Get_Int_Positive(0,9, "Please, focus your attention on methods amount -> [0..9]");
 
-		//fraction_1.ShowAvailableFractions();
-		//fraction_1.ShowAvailableFractions(Available_fractions);
+		std::cout << "\nchoose operand 1:";
+		int fraction_index_1 = Get_Int_Positive(0, static_pointer_Available_fractions->size(), "index out of range");
+		fraction_index_1--;	//transform number to index
+		
+		if (action > 4) return; // if not binary
 
-		std::cout << "\nchoose operands:";
-		std::cout << "\nchoose fraction 1: ";
-		int fraction_index_1 = Get_Int_Positive();
-		std::cout << "choose fraction 2: ";
-		int fraction_index_2 = Get_Int_Positive();
-
-		fraction_index_1--;
+		std::cout << "choose operand 2: ";
+		int fraction_index_2 = Get_Int_Positive(0, static_pointer_Available_fractions->size(), "index out of range");
 		fraction_index_2--;
+
 
 
 		Fraction Operand_1 = *Available_fractions[fraction_index_1];
 		Fraction Operand_2 = *Available_fractions[fraction_index_2];
+
+
+
+		return action;
 	}
   
 	//Overload operators - reference returned -----------------------------------------

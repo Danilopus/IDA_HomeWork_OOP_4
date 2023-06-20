@@ -61,20 +61,29 @@ void Task_1(std::string name_of_task)
 		//std::cout << "***\tFraction class demo\n";
 		std::cout << "***\t" << name_of_task << "\n";
 
-		//fraction_1.ShowAvailableFractions(Available_fractions);
 		Fraction::ShowAvailableFractions();
 
-		//fraction_1.ShowMethods();
 		Fraction::ShowMethods();
 
-			
-		switch (Fraction::UserChoiceHandle(_getch())))
+
+
+		Fraction Operand_1 = *Available_fractions[fraction_index_1];
+		Fraction Operand_2 = *Available_fractions[fraction_index_2];
+					
+		//switch (Fraction::UserChoiceHandle(_getch())))
+		switch (Fraction::UserChoiceHandle())
 		{
-		//case 1: Available_fractions[fraction_index_1]->Add(*Available_fractions[fraction_index_2], Available_fractions); break;
-		//case 1: Available_fractions.push_back(result_fraction); break;
-		case 1: Available_fractions.push_back(Operand_1 + Operand_2); break;		
+		//case 1: Available_fractions.push_back(Operand_1 + Operand_2); break;		
+		case 1: Operand_1 + Operand_2; break;
+
+
+
 		//case 2: Available_fractions[fraction_index_1]->Subtract(*Available_fractions[fraction_index_2], Available_fractions); break;
-		case 2: Available_fractions.push_back(Operand_1 - Operand_2); break;		
+		//case 2: Available_fractions.push_back(Operand_1 - Operand_2); break;		
+		case 2: Operand_1 - Operand_2; break;		
+		// 
+		// 
+		// 
 		//case 3: Available_fractions[fraction_index_1]->Multiply(*Available_fractions[fraction_index_2], Available_fractions); break;
 		case 3: Available_fractions.push_back(Operand_1 * Operand_2); break;
 		//case 4: Available_fractions[fraction_index_1]->Divide(*Available_fractions[fraction_index_2], Available_fractions); break;
