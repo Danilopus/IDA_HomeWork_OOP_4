@@ -128,14 +128,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="!___questions___.cpp" />
-    <ClCompile Include="classes.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="ComplexNumber.cpp" />
+    <ClCompile Include="Fraction.cpp" />
     <ClCompile Include="IDA_Home_DEFAULT.cpp" />
     <ClCompile Include="Service functions.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="classes.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="ComplexNumber.h" />
+    <ClInclude Include="Fraction.h" />
     <ClInclude Include="Service functions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

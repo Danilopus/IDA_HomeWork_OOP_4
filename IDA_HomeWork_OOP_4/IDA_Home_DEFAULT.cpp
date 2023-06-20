@@ -27,7 +27,8 @@
 //#include <array>
 //My own headers
 #include "Service functions.h"
-#include "classes.h"
+#include "MainMenu.h"
+#include "Fraction.h"
 #include "ComplexNumber.h"
 
 
@@ -35,7 +36,7 @@
 // Homework OOP 4 ----------------------------------------------------	
 
 
-// защита от нуля в знаменателе
+// защита от нуля в знаменателе???
 
 
 
@@ -48,12 +49,16 @@ void Task_1(std::string name_of_task)
 	//Вариант хранения объектов класса Fraction в векторе объектов вне класса (из точки вызова, с передачей указателя на этот вектор)
 	std::vector<Fraction*> Available_fractions;
 
-	// вот такой костыль родился на третьей итерации ДЗ про дроби, дабы избавиться от передачи постоянной указателя на вектор с объектами
+	// вот такой костыль родился на третьей итерации ДЗ про дроби, дабы избавиться от частой передачи указателя на вектор с объектами
 	// старые функции переделывать не стал
 	Fraction::Set_static_pointer_Available_fractions(Available_fractions);
 
-	Fraction fraction_1 = *new Fraction(5, 7, Available_fractions); 
-	Fraction fraction_2 = *new Fraction(7, 19, Available_fractions);
+	
+	Fraction fraction_1 = *new Fraction(3, 5, Available_fractions);
+	Fraction fraction_2 = *new Fraction(5, 7, Available_fractions);
+	Fraction fraction_3 = *new Fraction(7, 9, Available_fractions);
+	Fraction fraction_4 = *new Fraction(9, 11, Available_fractions);
+
 	
 	do
 	{	
@@ -62,36 +67,50 @@ void Task_1(std::string name_of_task)
 		std::cout << "***\t" << name_of_task << "\n";
 
 		Fraction::ShowAvailableFractions();
-
 		Fraction::ShowMethods();
 
+		int action = Fraction::UserChoiceHandle();
 
-
-		Fraction Operand_1 = *Available_fractions[fraction_index_1];
-		Fraction Operand_2 = *Available_fractions[fraction_index_2];
+		//Fraction Operand_1 = *Available_fractions[fraction_index_1];
+		//Fraction Operand_2 = *Available_fractions[fraction_index_2];
 					
-		//switch (Fraction::UserChoiceHandle(_getch())))
-		switch (Fraction::UserChoiceHandle())
+		if (action <= 4 && action>0)//разделеям бинарные и унарные операции
 		{
-		//case 1: Available_fractions.push_back(Operand_1 + Operand_2); break;		
-		case 1: Operand_1 + Operand_2; break;
+			Fraction& Operand_1 = Fraction::Choose_Operand_Handle(1);
+			Fraction& Operand_2 = Fraction::Choose_Operand_Handle(2);
 
+			//switch (Fraction::UserChoiceHandle(_getch())))
+			//switch (Fraction::UserChoiceHandle())
+			switch (action)
+			{
+			case 1: Operand_1 + Operand_2; break;
+				// Няглядная демонстрация упрощения кода от итерации к итерации ДЗ:
+				//case 2: Available_fractions[fraction_index_1]->Subtract(*Available_fractions[fraction_index_2], Available_fractions); break;
+				//case 2: Available_fractions.push_back(Operand_1 - Operand_2); break;		
+			case 2: Operand_1 - Operand_2; break;
+			case 3: Operand_1 * Operand_2; break;
+			case 4: Operand_1 / Operand_2; break;
+			}
+			std::cout << std::endl << Operand_1 << Fraction::codes_of_operation[action] << Operand_2 << " = " << *Available_fractions[Available_fractions.size() - 1];
 
-
-		//case 2: Available_fractions[fraction_index_1]->Subtract(*Available_fractions[fraction_index_2], Available_fractions); break;
-		//case 2: Available_fractions.push_back(Operand_1 - Operand_2); break;		
-		case 2: Operand_1 - Operand_2; break;		
-		// 
-		// 
-		// 
-		//case 3: Available_fractions[fraction_index_1]->Multiply(*Available_fractions[fraction_index_2], Available_fractions); break;
-		case 3: Available_fractions.push_back(Operand_1 * Operand_2); break;
-		//case 4: Available_fractions[fraction_index_1]->Divide(*Available_fractions[fraction_index_2], Available_fractions); break;
-		case 4: Available_fractions.push_back(Operand_1 / Operand_2); break;
 		}
-		std::cout << "\nresult - > ";
-		Available_fractions[Available_fractions.size() - 1]->ShowValues();
-		
+		else
+		{
+			Fraction& Operand = Fraction::Choose_Operand_Handle(0);
+			Fraction tmp(Operand); // Благодаря конструктору копирования этот временный объект не попадает в общий вектор объектов
+			switch (action)
+			{
+			case 5: ++Operand; break;
+			case 6: Operand++; break;
+			case 7: --Operand; break;
+			case 8: Operand--; break;
+			case 9: +Operand; break;
+			case 0: -Operand; break;
+			}
+			std::cout << std::endl << Fraction::codes_of_operation[action] << tmp << " = " << Operand;
+
+		}
+
 		std::cout << "\n\nEsc - for exit, any key to continue";
 	} while (_getch() != 27);
 	Fraction::Memory_Clean(Available_fractions);
@@ -153,7 +172,7 @@ int main()
 	//system("mode con cols=60 lines=40"); 
 	Main_menu MainMenu;	
 	MainMenu.AddElement("OOP Home Work 04: Classes. Operators overload Binary+Unary");	// Homework name
-	MainMenu.AddElement("Fractions class demo with overloaded operators:\nBinary: + | - | / | * \nUnary: + | - | ++ | --");				// Menu element 1
+	MainMenu.AddElement("Fractions class demo with overloaded operators:\n\tBinary: + | - | / | * \n\tUnary: + | - | ++ | --");				// Menu element 1
 	//MainMenu.AddElement("ComplexNumber class through inheritance with overloaded operators: + | - | / | * demo");		// Menu element 2
 	//MainMenu.AddElement("ComplexNumber class through including with overloaded operators: + | - | / | * demo");		// Menu element 3
 	//MainMenu.AddElement("XXX");

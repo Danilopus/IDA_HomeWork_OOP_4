@@ -1,4 +1,4 @@
-﻿#include "classes.h"
+﻿#include "Fraction.h"
 
 //::::::::::::::::::::::::::::::Fraction:: Fraction:: Fraction:: Fraction:: Fraction:: Fraction:: Fraction:: Fraction::::::::::::::::::::::::::::::
 int Fraction::MaxCommonDivider(int a, int b)
@@ -21,13 +21,13 @@ void Fraction::Fraction_reduction()
 	Set_denominator(Get_denominator() / max_common_divider);
 }
 Fraction::Fraction(int A1, int A2, std::vector<Fraction*>& Available_fractions) : _numerator(A1), _denominator(A2)
-{ 
-Available_fractions.push_back(this); 
-Fraction_reduction(); 
+{
+	Available_fractions.push_back(this);
+	Fraction_reduction();
 }
-Fraction::Fraction(int new_numerator, int new_denominator) : _numerator{ new_numerator }, _denominator{ new_denominator } 
-{ 	
-	Fraction_reduction(); 
+Fraction::Fraction(int new_numerator, int new_denominator) : _numerator{ new_numerator }, _denominator{ new_denominator }
+{
+	Fraction_reduction();
 	static_pointer_Available_fractions->push_back(this);
 }
 void Fraction::Set_denominator(int denominator)
@@ -37,19 +37,24 @@ void Fraction::Set_denominator(int denominator)
 }
 void Fraction::ShowMethods()
 {
-	std::cout << "\nAvailable methods:\n\nBinary:\n";
-	std::cout << "Summation [+] -> [1]" << '\n';
-	std::cout << "Substract [-] -> [2]" << '\n';
-	std::cout << "Multiply  [*] -> [3]" << '\n';
-	std::cout << "Divide    [/] -> [4]" << '\n';
+	std::cout << "\nAvailable methods:\n\nBinary:\t\t\t\t" << "Unary:\n";
+	std::cout << "Summation [+] -> [1]" << "\t\t" << "Prefix increment  [++v] -> [5]" << '\n';
+	std::cout << "Substract [-] -> [2]" << "\t\t" << "Postfix increment [v++] -> [6]" << '\n';
+	std::cout << "Multiply  [*] -> [3]" << "\t\t" << "Prefix decrement  [--v] -> [7]" << '\n';
+	std::cout << "Divide    [/] -> [4]" << "\t\t" << "Postfix decrement [v--] -> [8]" << '\n';
+	std::cout << "\t\t\t\tUnary plus        [+v]  -> [9]" << '\n';
+	std::cout << "\t\t\t\tUnary minus       [-v]  -> [0]" << '\n';
 
-	std::cout << "\nUnary:\n";
+
+
+
+	/*std::cout << "\nUnary:\n";
 	std::cout << "Prefix increment  [++v] -> [5]" << '\n';
 	std::cout << "Postfix increment [v++] -> [6]" << '\n';
 	std::cout << "Prefix increment  [--v] -> [7]" << '\n';
 	std::cout << "Postfix decrement [v--] -> [8]" << '\n';
 	std::cout << "Unary plus        [+v]  -> [9]" << '\n';
-	std::cout << "Unary minus       [-v]  -> [0]" << '\n';
+	std::cout << "Unary minus       [-v]  -> [0]" << '\n';*/
 
 }
 void Fraction::ShowAvailableFractions(std::vector<Fraction*> Available_fractions)
@@ -89,7 +94,7 @@ Fraction* operator+(Fraction& another_Fraction)
 //*/
 Fraction* Fraction::Add(Fraction& another_Fraction, std::vector<Fraction*>& Available_fractions)
 
-{	
+{
 	int new_numerator = _numerator * another_Fraction.Get_denominator() + another_Fraction.Get_numerator() * _denominator;
 	int new_denominator = _denominator * another_Fraction.Get_denominator();
 	//вариант с сокращением дроби в момент создания через вызов Fraction_reduction в конструкторе
@@ -102,7 +107,7 @@ Fraction* Fraction::Subtract(Fraction& another_Fraction, std::vector<Fraction*>&
 	int new_denominator = _denominator * another_Fraction.Get_denominator();
 	//вариант с сокращением дроби в момент создания через вызов Fraction_reduction в конструкторе
 	Fraction* result_fraction = new Fraction(new_numerator, new_denominator, Available_fractions); // вариант с внешним вектором для хранения объектов
-		
+
 	//Fraction* result_fraction = new Fraction(Available_fractions); // вариант с внешним вектором для хранения объектов
 	//result_fraction->Set_numerator(_numerator * another_Fraction.Get_denominator() - another_Fraction.Get_numerator() * _denominator);
 	//result_fraction->Set_denominator(_denominator * another_Fraction.Get_denominator());
@@ -115,7 +120,7 @@ Fraction* Fraction::Multiply(Fraction& another_Fraction, std::vector<Fraction*>&
 	int new_denominator = _denominator * another_Fraction.Get_denominator();
 	//вариант с сокращением дроби в момент создания через вызов Fraction_reduction в конструкторе
 	Fraction* result_fraction = new Fraction(new_numerator, new_denominator, Available_fractions); // вариант с внешним вектором для хранения объектов
-		
+
 	//Fraction* result_fraction = new Fraction(Available_fractions); // вариант с внешним вектором для хранения объектов
 	//result_fraction->Set_numerator(_numerator * another_Fraction.Get_numerator());
 	//result_fraction->Set_denominator(_denominator * another_Fraction.Get_denominator());
@@ -144,7 +149,7 @@ Fraction* Fraction::operator-(const Fraction& another_Fraction)
 	Fraction* result_fraction = new Fraction(new_numerator, new_denominator);
 	return result_fraction;
 }
-Fraction* Fraction::operator*(const Fraction& another_Fraction) 
+Fraction* Fraction::operator*(const Fraction& another_Fraction)
 {
 	std::cout << "\n" << "Using member-function const& overload parameter, pointer return" << "\n";
 	int new_numerator = (this->_numerator) * (another_Fraction._numerator);
@@ -173,157 +178,6 @@ Fraction* operator+(const Fraction& Fraction_Operand_1, const Fraction& Fraction
 
 //const std::vector<Fraction*> * Fraction::static_pointer_Available_fractions;
 //std::vector<Fraction*>* Fraction::static_pointer_Available_fractions;
-std::vector<Fraction*>* Fraction::static_pointer_Available_fractions{nullptr};
-
-
-
-//::::::::::::::::::::::::::::::PhoneBook::PhoneBook::PhoneBook::PhoneBook::PhoneBook::PhoneBook::PhoneBook::PhoneBook::::::::::::::::::::::::::::::
-void PhoneBook::AddEntry()
-{
-	PhoneBook_logical_unit* tmp_ptr = new PhoneBook_logical_unit();
-	PhoneBook_logical_unit_list.push_back(tmp_ptr);
-}
-void PhoneBook::AddEntry(std::string FIO, std::string home_number, std::string work_number, std::string mobile_number, std::string comments)
-{
-	PhoneBook_logical_unit* tmp_ptr = new PhoneBook_logical_unit(FIO, home_number, work_number, mobile_number, comments);
-	PhoneBook_logical_unit_list.push_back(tmp_ptr);
-}
-void PhoneBook::List()
-{
-	std::cout << "\nPhonebook list:";
-	int counter = 0;
-	for (auto const& it : PhoneBook_logical_unit_list)
-	{
-		std::cout << "\n\nEntry " << ++counter;
-		it->ShowInfo();
-	}
-}
-void PhoneBook::DeleteEntry()
-{
-	std::cout << "\n!!! Entry deleting !!!\n";
-	this->List();
-	std::cout << "\n\nChoose entry to delete: ";
-	int entry_to_delete = Get_Int_Positive();
-	entry_to_delete--;
-	delete PhoneBook_logical_unit_list[entry_to_delete];
-	PhoneBook_logical_unit_list.erase(PhoneBook_logical_unit_list.begin() + entry_to_delete);
-}
-int PhoneBook::SearchByName()
-
-{
-	std::string tmp_str;
-	std::cout << "\nSearch name: ";
-	getline(std::cin, tmp_str);
-	int counter = 0;
-	for (auto const& it : PhoneBook_logical_unit_list)
-	{
-		if (tmp_str == it->GetFIO())
-		{
-			std::cout << "\nFirst encount at Entry number -> " << counter + 1;
-			return counter;
-		}
-		counter++;
-	}
-	std::cout << "\nno mathes found\n";
-	return -1;
-}
-void PhoneBook::ShowMethods()
-
-{
-	std::cout << "\nAvailable methods:";
-	std::cout << "\n1) Add\t2) Delete\t3) Search\t4) List\n";
-}
-void PhoneBook::User_Choice_Handle()
-{
-	std::cout << "choose a method: ";
-	int action = Get_Int_Positive();
-	switch (action)
-	{
-	case 1: AddEntry(); break;
-	case 2: DeleteEntry(); break;
-	case 3: SearchByName(); break;
-	case 4: List(); break;
-	}
-}
-PhoneBook::~PhoneBook()
-{
-	for (int i = 0; i < PhoneBook_logical_unit_list.size(); i++)
-	{
-		delete PhoneBook_logical_unit_list[i];
-	}
-}
-
-
-//::::::::::::::::::::::::::::::PhoneBook_logical_unit::PhoneBook_logical_unit::PhoneBook_logical_unit::PhoneBook_logical_unit::::::::::::::::::::::::::::::
-PhoneBook_logical_unit::PhoneBook_logical_unit()
-{	
-		std::cout << "New phonebook entry:\n";
-		std::cout << "_FIO: ";
-		getline(std::cin, _FIO);
-		std::cout << "_home_number: ";
-		getline(std::cin, _home_number);
-		std::cout << "_work_number: ";
-		getline(std::cin, _work_number);
-		std::cout << "_mobile_number: ";
-		getline(std::cin, _mobile_number);
-		std::cout << "_comments: ";
-		getline(std::cin, _comments);
-	
-}
-PhoneBook_logical_unit::PhoneBook_logical_unit(std::string FIO, std::string home_number, std::string work_number, std::string mobile_number, std::string comments) :
-	_FIO(FIO), _home_number(home_number), _work_number(work_number), _mobile_number(mobile_number), _comments(comments) {}
-void PhoneBook_logical_unit::ShowInfo()
-{
-	std::cout << '\n' << "FIO           " << _FIO;
-	std::cout << '\n' << "home_number   " << _home_number;
-	std::cout << '\n' << "work_number   " << _work_number;
-	std::cout << '\n' << "mobile_number " << _mobile_number;
-	std::cout << '\n' << "comments      " << _comments;
-}
-
-////::::::::::::::::::::::::::::::Main_menu::Main_menu::Main_menu::Main_menu::Main_menu::Main_menu::Main_menu::Main_menu::::::::::::::::::::::::::::::::
-void Main_menu::Show_menu()
-{
-		system("cls");
-		std::cout << "\n\t***\t" << _menu_elements[0] << "\t***\n\n\t\n\nChoose an option: \n";
-		//for (int i=1; i< _menu_elements_number; i++)		
-		for (int i = 1; i < _menu_elements.size(); i++)
-			std::cout << "\n" << i << ". " << _menu_elements[i];
-		std::cout << "\n\n 0. Exit\n";
-		std::cout << "\nYour choice: ";
-}
-int Main_menu::User_Choice_Handle()
-{
-	int choice = 0;
-	choice = Get_Int_Positive();
-	std::cout << "\n";
-	// Обработка выбора пользователя
-	if (choice == 0) { std::cout << "\nGood By"; for (int j = 0; j < 50; j++) { Sleep(50 - j); std::cout << "y"; } std::cout << "e!"; Sleep(850);  return 0; }
-
-	else if (choice == 1) Task_1(_menu_elements[1]);
-	else if (choice == 2) Task_2();
-	else if (choice == 3) Task_3();
-	else if (choice == 4) Task_4();
-
-	else { std::cout << "\nSuch choice does not exist yet\n"; Sleep(1000); }
-	return 1;
-}
-int Main_menu::User_Choice_Handle(int key_code)
-{
-	//-48 переводит коды клавиш-цифр в цифры
-		std::cout << key_code-48 << "\n\n";
-	switch (key_code)
-	{
-	case 27: case 48: 
-	{ std::cout << "\nGood By"; for (int j = 0; j < 50; j++) { Sleep(50 - j); std::cout << "y"; } std::cout << "e!"; Sleep(850);  return 0;	}
-	case 49: Task_1(_menu_elements[1]); break;
-	case 50: Task_2(); break;
-	case 51: Task_3(); break;
-	case 52: Task_4(); break;
-	//case 53: Task_5(); break;
-	default: { std::cout << "\nSuch choice does not exist yet\n"; Sleep(1000); }
-	}
-	return 1;
-}
-
+std::vector<Fraction*>* Fraction::static_pointer_Available_fractions{ nullptr };
+std::map <int, std::string> Fraction::codes_of_operation{ {1," + "}, {2," - "}, {3," * "}, {4, " / "}, {5, "++pre"}, {6,"post++"}, {7, "--pre"}, {8,"post--"},{9,"+"}, {0, "-"} };
 
