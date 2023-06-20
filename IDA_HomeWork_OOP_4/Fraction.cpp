@@ -20,6 +20,10 @@ void Fraction::Fraction_reduction()
 	Set_numerator(Get_numerator() / max_common_divider);
 	Set_denominator(Get_denominator() / max_common_divider);
 }
+void Fraction::Set_static_pointer_Available_fractions(std::vector<Fraction*>& Available_fractions)
+{
+	static_pointer_Available_fractions = &Available_fractions;
+}
 Fraction::Fraction(int A1, int A2, std::vector<Fraction*>& Available_fractions) : _numerator(A1), _denominator(A2)
 {
 	Available_fractions.push_back(this);
@@ -35,6 +39,7 @@ void Fraction::Set_denominator(int denominator)
 	assert(denominator && "Division by zero is undefined");
 	_denominator = denominator;
 }
+void Fraction::ShowValues() { std::cout << this->Get_numerator() << " / " << this->Get_denominator(); }
 void Fraction::ShowMethods()
 {
 	std::cout << "\nAvailable methods:\n\nBinary:\t\t\t\t" << "Unary:\n";
@@ -66,6 +71,17 @@ void Fraction::ShowAvailableFractions(std::vector<Fraction*> Available_fractions
 	}
 	std::cout << "\n";
 }
+void Fraction::ShowAvailableFractions()
+{
+	std::cout << "\nAvailable fractions:";
+	for (int i = 0; i < (*static_pointer_Available_fractions).size(); i++)
+	{
+		//	std::cout << "\nFraction [" << i + 1 << "] -> " << Available_fractions[i]->Get_numerator() << " / " << Available_fractions[i]->Get_denominator();
+		//	std::cout << "\nFraction [" << i + 1 << "] -> " << (*static_pointer_Available_fractions)[i]->ShowValues();
+		std::cout << "\nFraction [" << i + 1 << "] -> " << *(*static_pointer_Available_fractions)[i];
+	}
+	std::cout << "\n";
+}
 void Fraction::Memory_Clean(const std::vector<Fraction*>& Available_fractions)
 {
 	for (int i = 0; i < Available_fractions.size(); i++)
@@ -78,12 +94,7 @@ Fraction* Fraction::operator+(const Fraction& another_Fraction) {
 	Fraction* result_fraction = new Fraction(new_numerator, new_denominator);
 	return result_fraction;
 }
-//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-//Q4 ??? при объявлении Fraction* operator+(Fraction& another_Fraction) в .h все было нормально, при переносе в .cpp вдруг давай ругаться ???
-//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-/*
-Fraction* operator+(Fraction& another_Fraction)
+Fraction* Fraction::operator+(Fraction& another_Fraction)
 {
 	std::cout << "\n" << "var3 Using member-function & overload parameter, pointer return" << "\n";
 	int new_numerator = (this->_numerator) * (another_Fraction._denominator) + (another_Fraction._numerator) * (this->_denominator);
@@ -91,7 +102,6 @@ Fraction* operator+(Fraction& another_Fraction)
 	Fraction* result_fraction = new Fraction(new_numerator, new_denominator);
 	return result_fraction;
 }
-//*/
 Fraction* Fraction::Add(Fraction& another_Fraction, std::vector<Fraction*>& Available_fractions)
 
 {
@@ -176,8 +186,17 @@ Fraction* operator+(const Fraction& Fraction_Operand_1, const Fraction& Fraction
 	return result_fraction;
 }
 
+std::ostream& operator<<(std::ostream& out, Fraction& just_a_fraction)
+{
+	//just_a_fraction.ShowValues();
+
+	out << just_a_fraction._numerator << "/" << just_a_fraction._denominator;
+
+	return out;
+}
+
 //const std::vector<Fraction*> * Fraction::static_pointer_Available_fractions;
 //std::vector<Fraction*>* Fraction::static_pointer_Available_fractions;
 std::vector<Fraction*>* Fraction::static_pointer_Available_fractions{ nullptr };
-std::map <int, std::string> Fraction::codes_of_operation{ {1," + "}, {2," - "}, {3," * "}, {4, " / "}, {5, "++pre"}, {6,"post++"}, {7, "--pre"}, {8,"post--"},{9,"+"}, {0, "-"} };
+std::map <int, std::string> Fraction::codes_of_operation{ {1," + "}, {2," - "}, {3," * "}, {4, " / "}, {5, "++pre "}, {6,"post++ "}, {7, "--pre "}, {8,"post-- "},{9,"+ "}, {0, "- "} };
 

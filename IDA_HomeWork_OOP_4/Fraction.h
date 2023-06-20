@@ -18,19 +18,16 @@ class Fraction
 	void Fraction_reduction();
 public:
 	static std::map <int, std::string> codes_of_operation;
-	static void Set_static_pointer_Available_fractions(std::vector<Fraction*>& Available_fractions)
-	{
-		static_pointer_Available_fractions = &Available_fractions;
-	}
+	static void Set_static_pointer_Available_fractions(std::vector<Fraction*>& Available_fractions);
 
 	// Constructors // Destructors // Memory Clean -------------------------
-	Fraction(int A1, int A2, std::vector<Fraction*>& Available_fractions);// : _numerator(A1), _denominator(A2){	Available_fractions.push_back(this); Fraction_reduction();	}
+	Fraction(int A1, int A2, std::vector<Fraction*>& Available_fractions);
 	Fraction(std::vector<Fraction*>& Available_fractions) { Available_fractions.push_back(this); }
 	Fraction(int new_numerator, int new_denominator);
 	Fraction() {}
 	~Fraction()
 	{
-		std::cout << "\nDestructor at work\n";
+		//std::cout << "\nDestructor at work\n";
 		//_getch();
 
 		/*for (int i =0; i < static_pointer_Available_fractions->size(); i++)
@@ -49,25 +46,15 @@ public:
 	int Get_denominator() { return _denominator; }
 
 	// Shows ---------------------------------------------------------------
-	void ShowValues() { std::cout << this->Get_numerator() << " / " << this->Get_denominator(); }
+	void ShowValues();
 	static void ShowMethods();
 	void ShowAvailableFractions(std::vector<Fraction*> Available_fractions);
-	static void ShowAvailableFractions()
-	{
-		std::cout << "\nAvailable fractions:";
-		for (int i = 0; i < (*static_pointer_Available_fractions).size(); i++)
-		{
-			//	std::cout << "\nFraction [" << i + 1 << "] -> " << Available_fractions[i]->Get_numerator() << " / " << Available_fractions[i]->Get_denominator();
-			//	std::cout << "\nFraction [" << i + 1 << "] -> " << (*static_pointer_Available_fractions)[i]->ShowValues();
-			std::cout << "\nFraction [" << i + 1 << "] -> " << *(*static_pointer_Available_fractions)[i];
-		}
-		std::cout << "\n";
-	}
+	static void ShowAvailableFractions();
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	//Q1 Почему при передаче аргумента по константной ссылке перестают работать геттеры?
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::	
 
-		// Inputs handle -------------------------------------------------------		
+	// Inputs handle -------------------------------------------------------		
 	static int UserChoiceHandle()
 		// 	static void UserChoiceHandle(int keycode)
 
@@ -96,12 +83,14 @@ public:
 	static Fraction& Choose_Operand_Handle(int Operand_number)	{
 		
 		std::cout << "\nchoose operand " << Operand_number << ": ";
-		int fraction_index = Get_Int_Positive(1, static_pointer_Available_fractions->size(), "index out of range");
+		//std::string coomment = "index out of range "+"[1.." + std::to_string(static_pointer_Available_fractions->size());
+		std::string comment = "index out of range ";
+		comment += "[1.." + std::to_string(static_pointer_Available_fractions->size()) + "] ";
+		int fraction_index = Get_Int_Positive(1, static_pointer_Available_fractions->size(), comment);
 		--fraction_index; //transform number to index
 
 		return *(*static_pointer_Available_fractions)[fraction_index];
 	}
-	//static void Get_Operand(int operand_number);
 
 	//Overload operators - reference returned -----------------------------------------
 
@@ -141,9 +130,6 @@ public:
 
 	//Overload operators - pointer returned -----------------------------------------
 
-	// перегрузка оператора через friend не может принять только указатели на операнды (нужны объекты или ссылки):
-	//		friend Fraction* operator+(Fraction* Fraction_Operand_1, Fraction* Fraction_Operand_2) - такое только через глобальную перегрузку видимо???
-
 	//*
 	friend Fraction* operator+(const Fraction& Fraction_Operand_1, const Fraction& Fraction_Operand_2);
 	//*/
@@ -162,14 +148,8 @@ public:
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	//Fraction* operator+(Fraction& another_Fraction);
 
-	Fraction* operator+(Fraction& another_Fraction)
-	{
-		std::cout << "\n" << "var3 Using member-function & overload parameter, pointer return" << "\n";
-		int new_numerator = (this->_numerator) * (another_Fraction._denominator) + (another_Fraction._numerator) * (this->_denominator);
-		int new_denominator = (this->_denominator) * (another_Fraction._denominator);
-		Fraction* result_fraction = new Fraction(new_numerator, new_denominator);
-		return result_fraction;
-	}
+	Fraction* operator+(Fraction& another_Fraction);
+
 
 	/*
 	Fraction* operator+(const Fraction* another_Fraction)
@@ -231,12 +211,5 @@ public:
 	}
 
 
-	friend std::ostream& operator << (std::ostream& out, Fraction& just_a_fraction)
-	{
-		//just_a_fraction.ShowValues();
-
-		out << just_a_fraction._numerator << "/" << just_a_fraction._denominator;
-
-		return out;
-	}
+	friend std::ostream& operator << (std::ostream& out, Fraction& just_a_fraction);
 };

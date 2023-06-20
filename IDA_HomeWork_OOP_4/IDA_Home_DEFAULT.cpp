@@ -53,11 +53,13 @@ void Task_1(std::string name_of_task)
 	// старые функции переделывать не стал
 	Fraction::Set_static_pointer_Available_fractions(Available_fractions);
 
-	
-	Fraction fraction_1 = *new Fraction(3, 5, Available_fractions);
+	const int list_size = 5;
+	for (int i = 0; i < list_size; i++)	{ Fraction& new_fraction = *new Fraction(Get_Random(1,100), Get_Random(1, 100)); }
+
+	/*Fraction fraction_1 = *new Fraction(3, 5, Available_fractions);
 	Fraction fraction_2 = *new Fraction(5, 7, Available_fractions);
 	Fraction fraction_3 = *new Fraction(7, 9, Available_fractions);
-	Fraction fraction_4 = *new Fraction(9, 11, Available_fractions);
+	Fraction fraction_4 = *new Fraction(9, 11, Available_fractions);*/
 
 	
 	do
